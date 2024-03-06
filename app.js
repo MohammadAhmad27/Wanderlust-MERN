@@ -36,7 +36,8 @@ main().then(() => {
     });
 
 async function main() {
-    await mongoose.connect(dbUrl);
+    // await mongoose.connect(dbUrl);
+    await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
 }
 
 
@@ -52,19 +53,19 @@ app.use(express.static(path.join(__dirname + "/public")));
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     crypto: {
-        secret: process.env.SECRET
+        secret: "mysupersecretcode"
     },
     touchAfter: 24 * 3600
 });
 
 store.on("error", ()=> {
     console.log("ERROR IN MONGO SESSION STORE", err)
-});
+})
 
 //Setting up cookies
 const sessionOptions = {
     store,
-    secret: process.env.SECRET,
+    secret: "mysupersecretcode",
     resave: false,
     saveUninitialized: true,
     cookie: {
