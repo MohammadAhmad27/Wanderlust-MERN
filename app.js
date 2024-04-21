@@ -1,6 +1,7 @@
 if (process.env.NODE_ENV != "production") {
     require('dotenv').config()
 }
+
 const express = require("express");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
@@ -58,7 +59,7 @@ const store = MongoStore.create({
     touchAfter: 24 * 3600
 });
 
-store.on("error", ()=> {
+store.on("error", () => {
     console.log("ERROR IN MONGO SESSION STORE", err)
 })
 
@@ -87,20 +88,15 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
- // Alert showing on any create, edit, update and delete request
-// app.use((req, res, next) => {
-//     res.locals.success = req.flash("success");
-//     res.locals.error = req.flash("error");
-//     res.locals.currentUser = req.user;
-//     next();
-// });
-
+//Alert showing on any create, edit, update and delete request
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
-    res.locals.currentUser = req.user; // Check if req.user is correctly set
+    res.locals.currentUser = req.user;
     next();
 });
+
+
 
 
 
